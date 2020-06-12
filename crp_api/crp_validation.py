@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from .config_object_helper import ConfigObjectHelper as coh
+from .helpers import ConfigObjectHelper as coh
 
 
 class CRPValidation:
@@ -73,7 +73,7 @@ class CRPValidation:
             cpf: CPF number.
     
         Returns:
-            Boolean
+            (valid_crp, user_data)
         """
 
         self.__driver.get(self.CFP_URL)
