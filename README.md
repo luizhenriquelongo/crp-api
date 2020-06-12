@@ -10,9 +10,9 @@ Com a necessidade de validar o CRP e sem encontrar APIs que fizessem isso, resol
 
 ### Pré requisitos:
 
-- [Python 3.8]("https://www.python.org/downloads/")
-- [Pip]("https://pip.pypa.io/en/stable/installing/")
-- [Pipenv]("https://pypi.org/project/pipenv/")
+- [Python 3.8](https://www.python.org/downloads/)
+- [Pip](https://pip.pypa.io/en/stable/installing/)
+- [Pipenv](https://pypi.org/project/pipenv/)
 
 Instale os pacotes utilizando o comando:
 
@@ -55,4 +55,4 @@ Aplicação ficará disponivel na url `http://0.0.0.0:5000/`
 
 ## Autor
 
-- [Luiz Henrique Longo]("https://linkedin.com/in/luizhenriquelongo")
+- [Luiz Henrique Longo](https://linkedin.com/in/luizhenriquelongo)
