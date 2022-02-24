@@ -28,29 +28,9 @@ $ pipenv run uvicorn main:app
 
 Aplicação ficará disponivel na url `http://0.0.0.0:8000/`
 
-## Uso:
+## Uso da API:
 
-#### Documentação:
-
-> `http://0.0.0.0:8000/`
-
-#### Validação de CRP:
-- #### Endpoint:
-
-> `http://0.0.0.0:8000/crp`
-
-- #### Request Method:
-
-> GET
-
-- #### Body:
-
-```json
-{
-  "cpf": "12345678901",
-  "crp": "123456"
-}
-```
+> `http://0.0.0.0:8000/docs`
 
 ## Autor
 
