@@ -1,6 +1,5 @@
 import os
 
-
 APP_ENV = os.getenv('APP_ENV', 'development')
 DATABASE_USERNAME = os.getenv('DATABASE_USERNAME', 'postgres')
 DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD', 'docker')

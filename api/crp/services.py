@@ -2,7 +2,10 @@ from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from . import schemas, models
+from . import (
+    schemas,
+    models,
+)
 
 
 async def get_crp_user_by_cpf(cpf: str, database: Session) -> Optional[models.CRPUser]:

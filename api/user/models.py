@@ -1,4 +1,8 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+)
 
 from api.db import Base
 from . import hashing
