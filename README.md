@@ -23,16 +23,21 @@ $ pipenv install
 Em seguida, no diretório do projeto, execute o comando:
 
 ```bash
-$ pipenv run python wsgi.py
+$ pipenv run uvicorn main:app
 ```
 
-Aplicação ficará disponivel na url `http://0.0.0.0:5000/`
+Aplicação ficará disponivel na url `http://0.0.0.0:8000/`
 
 ## Uso:
 
+#### Documentação:
+
+> `http://0.0.0.0:8000/`
+
+#### Validação de CRP:
 - #### Endpoint:
 
-> `http://0.0.0.0:5000/api/crp`
+> `http://0.0.0.0:8000/crp`
 
 - #### Request Method:
 
@@ -46,15 +51,6 @@ Aplicação ficará disponivel na url `http://0.0.0.0:5000/`
   "crp": "123456"
 }
 ```
-
-## To do:
-
-- Testes, testes e testes;
-- Persistir dados retornados pela API para evitar consultas via selenium;
-- Reestruturar aplicação utilizando Django e Django REST Framework;
-- Documentar API;
-- Dockerizar aplicação;
-- Fazer deploy no Heroku;
 
 ## Autor
 
