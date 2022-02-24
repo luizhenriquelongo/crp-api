@@ -3,13 +3,19 @@ from typing import (
     Optional,
 )
 
-from fastapi import HTTPException, status
+from fastapi import (
+    HTTPException,
+    status,
+)
 from sqlalchemy.orm import Session
 
-from . import models, schemas
+from . import (
+    models,
+    schemas,
+)
 
 
-async def new_user_register(request: schemas.User, database: Session) -> models.User:
+async def register_new_user(request: schemas.User, database: Session) -> models.User:
     new_user = models.User(name=request.name, email=request.email, password=request.password)
     database.add(new_user)
     database.commit()
@@ -17,7 +23,7 @@ async def new_user_register(request: schemas.User, database: Session) -> models.
     return new_user
 
 
-async def all_users(database: Session) -> List[models.User]:
+async def get_all_users(database: Session) -> List[models.User]:
     users = database.query(models.User).all()
     return users
 

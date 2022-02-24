@@ -17,6 +17,7 @@ fileConfig(config.config_file_name)
 from api import config as config_env  # noqa
 from api.db import Base   # noqa
 from api.user.models import User
+from api.crp.models import CRPUser
 
 
 # add your model's MetaData object here

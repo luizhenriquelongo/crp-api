@@ -4,7 +4,6 @@ from typing import (
     Type,
 )
 
-from pydantic import BaseModel
 from selenium.common.exceptions import (
     NoSuchElementException,
     TimeoutException,
@@ -19,14 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from .config import ScrapperConfig
-
-
-class CRPUserData(BaseModel):
-    name: str
-    region: str
-    register_number: str
-    register_status: str
-    is_active: bool = False
+from api.crp import schemas
 
 
 class CRPScrapper:
@@ -58,7 +50,7 @@ class CRPScrapper:
         """Gets the DOM element by xpath"""
         return self.__driver.find_element(by=By.XPATH, value=element)
 
-    def scrape_for_user_data(self, register: str, cpf: str) -> Optional[CRPUserData]:
+    def scrape_for_user_data(self, register: str, cpf: str) -> Optional[schemas.CRPUserData]:
         """Validate the CRP registrer.
 
         Args:
@@ -98,8 +90,9 @@ class CRPScrapper:
             register_status = self._get_dom_element(self.config.ELEMENTS_XPATH.register_status).text
 
             self.__driver.quit()
-            return CRPUserData(
+            return schemas.CRPUserData(
                 name=name,
+                cpf=cpf,
                 region=region,
                 register_number=register_number,
                 register_status=register_status,

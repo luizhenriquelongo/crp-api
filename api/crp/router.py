@@ -1,22 +1,28 @@
-from typing import List
-
-from fastapi import APIRouter, Depends, status, Response, HTTPException
+from fastapi import (
+    APIRouter,
+    Depends,
+)
 from sqlalchemy.orm import Session
 
-
 from api import db
-from scrapper.crp_scrapper import CRPScrapper
-from . import schemas, services
-from scrapper import config
+from . import (
+    schemas,
+    use_cases,
+)
+from scrapper import get_scrapper
 
 router = APIRouter(tags=['CRP Validation'], prefix='/crp')
 
 
-@router.post("/validate")
-async def validate_crp(input_data: schemas.CRPRegisterValidationInput):
-    scrapper = CRPScrapper(config=config.ScrapperConfig)
-    data = scrapper.scrape_for_user_data(register=input_data.crp_register, cpf=input_data.cpf)
+@router.post("/", response_model=schemas.CRPUserData)
+async def validate_crp(
+    request: schemas.CRPRegisterValidationInput,
+    database: Session = Depends(db.get_db),
+):
+    data = await use_cases.get_data_from_db_use_case(request, database)
     if data is None:
-        return {"Message": "can't validate crp register"}
+        scrapper = get_scrapper()
+        data = await use_cases.get_data_from_web_scrapper_use_case(request, database, scrapper)
+        del scrapper
 
     return data

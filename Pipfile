@@ -18,6 +18,7 @@ passlib = {extras = ["argon2"], version = "*"}
 email-validator = "*"
 
 [dev-packages]
+cython = "*"
 
 [requires]
 python_version = "3.8"

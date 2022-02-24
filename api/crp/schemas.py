@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import (
     BaseModel,
     Field,
@@ -6,7 +8,6 @@ from pydantic import (
 from validate_docbr import CPF
 
 import utils
-
 
 cpf_validator = CPF()
 
@@ -33,3 +34,15 @@ class CRPRegisterValidationInput(BaseModel):
             raise ValueError(f'O CRP: "{cleaned_crp}" não é possui 6 dígitos.')
 
         return cleaned_crp
+
+
+class CRPUserData(BaseModel):
+    name: str
+    cpf: str
+    region: str
+    register_number: str
+    register_status: str
+    is_active: bool
+
+    class Config:
+        orm_mode = True

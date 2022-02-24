@@ -1,4 +1,8 @@
-from pydantic import BaseModel, constr, EmailStr
+from pydantic import (
+    BaseModel,
+    constr,
+    EmailStr,
+)
 
 
 class User(BaseModel):

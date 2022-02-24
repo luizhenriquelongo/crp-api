@@ -14,7 +14,7 @@ class ElementsXPath(BaseModel):
 
 
 class ScrapperConfig:
-    BASE_PATH = BASE_DIR = Path(__file__).resolve().parent.parent.parent
+    BASE_PATH = BASE_DIR = Path(__file__).resolve().parent.parent
     CFP_URL = 'https://cadastro.cfp.org.br/'
     CHROMEDRIVER_PATH = os.environ.get('CHROMEDRIVER_PATH') or os.path.join(BASE_PATH, 'chromedriver')
     TIMEOUT = 10
