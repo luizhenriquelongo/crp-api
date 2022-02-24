@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+selenium = "*"
+uvicorn = "*"
+motor = "*"
+dnspython = "*"
+validate-docbr = "*"
+pydantic = "*"
+sqlalchemy = "*"
+psycopg2 = "*"
+alembic = "*"
+passlib = {extras = ["argon2"], version = "*"}
+email-validator = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
