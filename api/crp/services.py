@@ -1,30 +1,37 @@
 from typing import Optional
 
+from fastapi import (
+    HTTPException,
+    status,
+)
 from sqlalchemy.orm import Session
 
-from . import (
-    schemas,
+from api.crp import (
     models,
+    schemas,
+    dao,
 )
+from scrapper.crp_scrapper import CRPScrapper
 
 
-async def get_crp_user_by_cpf(cpf: str, database: Session) -> Optional[models.CRPUser]:
-    return database.query(models.CRPUser).filter(models.CRPUser.cpf == cpf).first()
+async def get_data_from_db_use_case(request: schemas.CRPRegisterValidationInput, database: Session) -> Optional[
+    models.CRPUser
+]:
+    crp_user_data = await dao.get_crp_user_by_cpf(request.cpf, database)
+    return crp_user_data
 
 
-async def create_or_update_crp_user(user_data: schemas.CRPUserData, database: Session) -> models.CRPUser:
-    crp_user = await get_crp_user_by_cpf(user_data.cpf, database)
-    if crp_user is not None:
-        crp_user.name = user_data.name
-        crp_user.region = user_data.region
-        crp_user.register_number = user_data.register_number
-        crp_user.register_status = user_data.register_status
-        crp_user.is_active = user_data.is_active
+async def get_data_from_web_scrapper_use_case(
+    request: schemas.CRPRegisterValidationInput,
+    database: Session,
+    scrapper: CRPScrapper
+) -> models.CRPUser:
+    crp_user_data = scrapper.scrape_for_user_data(register=request.crp_register, cpf=request.cpf)
+    if crp_user_data is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Could not found any data from inputted data."
+        )
 
-    else:
-        crp_user = models.CRPUser(**user_data.dict())
-        database.add(crp_user)
-
-    database.commit()
-    database.refresh(crp_user)
-    return crp_user
+    user_data = await dao.create_or_update_crp_user(crp_user_data, database)
+    return user_data

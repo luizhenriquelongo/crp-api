@@ -1,45 +1,36 @@
-from typing import (
-    List,
-    Optional,
-)
+from typing import List
 
-from fastapi import (
-    HTTPException,
-    status,
-)
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from . import (
+from api.user import (
     models,
     schemas,
+    validator,
+    dao,
 )
 
 
-async def register_new_user(request: schemas.User, database: Session) -> models.User:
-    new_user = models.User(name=request.name, email=request.email, password=request.password)
-    database.add(new_user)
-    database.commit()
-    database.refresh(new_user)
+async def create_new_user(request: schemas.User, database: Session) -> models.User:
+    user = await validator.verify_email_exist(request.email, database)
+
+    if user:
+        raise HTTPException(
+            status_code=400,
+            detail='The user with this email already exists in the system.'
+        )
+
+    new_user = await dao.register_new_user(request, database)
     return new_user
 
 
 async def get_all_users(database: Session) -> List[models.User]:
-    users = database.query(models.User).all()
-    return users
+    return await dao.get_all_users(database)
 
 
-async def get_user_by_id(user_id: int, database: Session) -> Optional[models.User]:
-    user = database.query(models.User).get(user_id)
-
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found!"
-        )
-
-    return user
+async def get_user(user_id: int, database: Session) -> models.User:
+    return await dao.get_user_by_id(user_id, database)
 
 
-async def delete_user_by_id(user_id: int, database: Session):
-    database.query(models.User).filter(models.User.id == user_id).delete()
-    database.commit()
+async def delete_user(user_id: int, database: Session):
+    return await dao.delete_user_by_id(user_id, database)
